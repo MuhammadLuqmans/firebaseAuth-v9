@@ -1,5 +1,6 @@
-import React from 'react'
+import React , { Redirect } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { useAuth } from '../Context/AuthContext'
 import ForgotPasswordPage from '../pages/ForgotPasswordPage'
 import Homepage from '../pages/Homepage'
 import Loginpage from '../pages/Loginpage'
@@ -26,4 +27,13 @@ export default function AppRouter(props) {
       </Router>
     </>
   )
+}
+
+
+
+function ProtectedRoute(props) {
+  const { currentUser } = useAuth;
+  const { path } = props
+  return currentUser ? (<Route  {...props} />) : (<Redirect to = {{pathname:"/login", state : {from : path}}} />)
+  
 }
